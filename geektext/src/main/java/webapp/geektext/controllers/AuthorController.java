@@ -7,17 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import webapp.geektext.entities.Author;
-import webapp.geektext.repos.AuthorRepo;
 import webapp.geektext.services.AuthorService;
 
 @RestController
-public class BookController {
+public class AuthorController {
 
+	@Autowired
+	AuthorService authorService;
 	
-	@GetMapping("/books")
-	public String getBooks() {
-		return "This will return books";
+	@GetMapping("/authors")
+	public List<Author> getAuthors() {
+		return authorService.getAuthors();
 	}
-	
-	
 }
