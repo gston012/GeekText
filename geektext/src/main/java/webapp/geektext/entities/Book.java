@@ -9,7 +9,6 @@ import javax.persistence.Table;
 @Table(name = "book")
 public class Book {
 
-	
 	@Id
 	@Column(name = "book_isbn")
 	private long bookISBN;
@@ -24,7 +23,7 @@ public class Book {
 	private double bookPrice;
 	
 	@Column(name = "book_author_id")
-	private long bookAuthorId;
+	private Long bookAuthorId;
 	
 	@Column(name = "book_genre")
 	private String bookGenre;
@@ -39,7 +38,7 @@ public class Book {
 	private int bookCopiesSold;
 
 
-	//Constructor
+	//Constructors
 	public Book(long bookISBN, String bookName, String bookDescription, double bookPrice, long bookAuthorId,
 			String bookGenre, String bookPublisher, int bookYearPublished, int bookCopiesSold) {
 		super();
@@ -57,4 +56,79 @@ public class Book {
 	public Book() {
 		
 	}
+	
+	
+	//Getters and Setters
+	public long getBookISBN() {
+		return bookISBN;
+	}
+
+	public void setBookISBN(long bookISBN) {
+		this.bookISBN = bookISBN;
+	}
+
+	public String getBookName() {
+		return bookName;
+	}
+
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
+	}
+
+	public String getBookDescription() {
+		return bookDescription;
+	}
+
+	public void setBookDescription(String bookDescription) {
+		this.bookDescription = bookDescription;
+	}
+
+	public double getBookPrice() {
+		return bookPrice;
+	}
+
+	public void setBookPrice(double bookPrice) {
+		this.bookPrice = bookPrice;
+	}
+
+	public Long getBookAuthorId() {
+		return bookAuthorId;
+	}
+
+	public void setBookAuthorId(long bookAuthorId) {
+		this.bookAuthorId = bookAuthorId;
+	}
+
+	public String getBookGenre() {
+		return bookGenre;
+	}
+
+	public void setBookGenre(String bookGenre) {
+		this.bookGenre = bookGenre;
+	}
+
+	public String getBookPublisher() {
+		return bookPublisher;
+	}
+
+	public void setBookPublisher(String bookPublisher) {
+		this.bookPublisher = bookPublisher;
+	}
+
+	public int getBookYearPublished() {
+		return bookYearPublished;
+	}
+
+	public void setBookYearPublished(int bookYearPublished) {
+		this.bookYearPublished = bookYearPublished;
+	}
+
+	public int getBookCopiesSold() {
+		return bookCopiesSold;
+	}
+
+	public void setBookCopiesSold(int bookCopiesSold) {
+		this.bookCopiesSold = bookCopiesSold;
+	}
+	
 }
