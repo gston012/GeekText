@@ -21,7 +21,7 @@ public class BookController {
 		return bookService.getBooks();
 	}
 	
-	@GetMapping("{books:(?i)books}/{bookISBN}")
+	@GetMapping("{books:(?i)books}/{byisbn:(?i)byisbn}/{bookISBN}")
 	public ResponseEntity<Optional<Book>> getBookByISBN(@PathVariable("bookISBN") Long id) {
 		return bookService.getBookByISBN(id); 
 	}
@@ -30,9 +30,4 @@ public class BookController {
 	public ResponseEntity<List<Book>> getBooksByAuthor(@PathVariable("authorFullName") String authorFullName) {
 		return bookService.getBooksByAuthorName(authorFullName);
 	}
-
-	
-
-	
-	
 }
