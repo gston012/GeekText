@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="author")
@@ -27,17 +28,22 @@ public class Author {
 	
 	@Column(name = "author_publisher")
 	private String authorPublisher;
-
 	
+	@Transient
+	@Column(name = "author_full_name")
+	private String authorFullName = authorFirstName + " " + authorLastName;
+	
+
 	//Constructors
 	public Author(long authorId, String authorFirstName, String authorLastName, String authorBiography,
-			String authorPublisher) {
+			String authorPublisher, String authorFullName) {
 		super();
 		this.authorId = authorId;
 		this.authorFirstName = authorFirstName;
 		this.authorLastName = authorLastName;
 		this.authorBiography = authorBiography;
 		this.authorPublisher = authorPublisher;
+		this.authorFullName = authorFullName;
 	}
 	
 	public Author(){
@@ -86,4 +92,18 @@ public class Author {
 		this.authorPublisher = authorPublisher;
 	}
 	
+	public String getAuthorFullName() {
+		return authorFullName;
+	}
+
+	public void setAuthorFullName(String authorFullName) {
+		this.authorFullName = authorFullName;
+	}
+	
+	@Override
+	public String toString() {
+		return "Author [authorId=" + authorId + ", authorFirstName=" + authorFirstName + ", authorLastName="
+				+ authorLastName + ", authorBiography=" + authorBiography + ", authorPublisher=" + authorPublisher
+				+ ", authorFullName=" + authorFullName + "]";
+	}
 }
