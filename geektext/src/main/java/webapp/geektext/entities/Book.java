@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "book")
@@ -12,7 +11,7 @@ public class Book {
 
     @Id
     @Column(name = "book_isbn")
-    private BigDecimal bookISBN; //MUST BE BIGDECIMAL (SQL numeric = BigDecimal)
+    private long bookISBN;
 
     @Column(name = "book_name")
     private String bookName;
@@ -21,7 +20,7 @@ public class Book {
     private String bookDescription;
 
     @Column(name = "book_price")
-    private BigDecimal bookPrice; //MUST BE BIGDECIMAL (SQL numeric = BigDecimal)
+    private double bookPrice;
 
     @Column(name = "book_author_id")
     private long bookAuthorId;
@@ -40,7 +39,7 @@ public class Book {
 
 
     //Constructor
-    public Book(BigDecimal bookISBN, String bookName, String bookDescription, BigDecimal bookPrice, long bookAuthorId,
+    public Book(long bookISBN, String bookName, String bookDescription, double bookPrice, long bookAuthorId,
                 String bookGenre, String bookPublisher, int bookYearPublished, int bookCopiesSold) {
         super();
         this.bookISBN = bookISBN;
@@ -58,11 +57,11 @@ public class Book {
 
     }
 
-    public BigDecimal getBookISBN() {
+    public long getBookISBN() {
         return bookISBN;
     }
 
-    public void setBookISBN(BigDecimal bookISBN) {
+    public void setBookISBN(long bookISBN) {
         this.bookISBN = bookISBN;
     }
 
@@ -82,11 +81,11 @@ public class Book {
         this.bookDescription = bookDescription;
     }
 
-    public BigDecimal getBookPrice() {
+    public double getBookPrice() {
         return bookPrice;
     }
 
-    public void setBookPrice(BigDecimal bookPrice) {
+    public void setBookPrice(double bookPrice) {
         this.bookPrice = bookPrice;
     }
 
