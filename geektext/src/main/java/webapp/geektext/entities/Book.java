@@ -1,5 +1,6 @@
 package webapp.geektext.entities;
 
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,7 +21,7 @@ public class Book {
 	private String bookDescription;
 	
 	@Column(name = "book_price")
-	private double bookPrice;
+	private BigDecimal bookPrice;
 	
 	@Column(name = "book_author_id")
 	private Long bookAuthorId;
@@ -39,7 +40,7 @@ public class Book {
 
 
 	//Constructor
-	public Book(long bookISBN, String bookName, String bookDescription, double bookPrice, long bookAuthorId,
+	public Book(long bookISBN, String bookName, String bookDescription, BigDecimal bookPrice, long bookAuthorId,
 			String bookGenre, String bookPublisher, int bookYearPublished, int bookCopiesSold) {
 		super();
 		this.bookISBN = bookISBN;
@@ -55,6 +56,14 @@ public class Book {
 	
 	public Book() {
 		
+	}
+	
+	@Override
+	public String toString() {
+		return "Book [bookISBN=" + bookISBN + ", bookName=" + bookName + ", bookDescription=" + bookDescription
+				+ ", bookPrice=" + bookPrice + ", bookAuthorId=" + bookAuthorId + ", bookGenre=" + bookGenre
+				+ ", bookPublisher=" + bookPublisher + ", bookYearPublished=" + bookYearPublished + ", bookCopiesSold="
+				+ bookCopiesSold + "]";
 	}
 	
 	
@@ -83,11 +92,11 @@ public class Book {
 		this.bookDescription = bookDescription;
 	}
 
-	public double getBookPrice() {
+	public BigDecimal getBookPrice() {
 		return bookPrice;
 	}
 
-	public void setBookPrice(double bookPrice) {
+	public void setBookPrice(BigDecimal bookPrice) {
 		this.bookPrice = bookPrice;
 	}
 
