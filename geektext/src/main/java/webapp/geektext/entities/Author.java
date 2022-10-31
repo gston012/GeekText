@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.hibernate.annotations.Formula;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="author")
@@ -29,9 +29,9 @@ public class Author {
 	@Column(name = "author_publisher")
 	private String authorPublisher;
 	
-	@Formula("(((author_firstname)::text || ' '::text) || (author_lastname)::text)")
+	@Transient
 	@Column(name = "author_full_name")
-	private String authorFullName;
+	private String authorFullName = authorFirstName + " " + authorLastName;
 	
 
 	//Constructors

@@ -3,10 +3,12 @@ package webapp.geektext.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import webapp.geektext.entities.Book;
 import webapp.geektext.repos.AuthorRepo;
 import webapp.geektext.repos.BookRepo;
@@ -60,19 +62,4 @@ public class BookService {
 			return new ResponseEntity<List<Book>>(bookListToReturn, HttpStatus.OK);
 		}
 	}
-	
-	public ResponseEntity<String> addBook(Book book) {
-		List<Book> listOfBooks = bookRepo.findAll();
-		
-		for(Book currentBook : listOfBooks) {
-			if(book.getBookISBN() == currentBook.getBookISBN()) {
-				return new ResponseEntity<String>("FAILED: ISBN already exists", HttpStatus.BAD_REQUEST);
-			}
-		}
-		
-		bookRepo.save(book);
-		
-		return new ResponseEntity<String>("SUCCESS: Book Created ", HttpStatus.CREATED);
-	}
-	
 }
