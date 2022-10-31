@@ -41,4 +41,37 @@ public class AuthorService {
 		//System.out.println("AuthorID not Found"); //use for debug
 		return -1;
 	}
+	
+	public ResponseEntity<String> addAuthor(Author author) {
+		if(requiredFieldIsNull(author)) {
+			return new ResponseEntity<String>("FAILED: Required field is NULL", HttpStatus.BAD_REQUEST);
+		} else if(authorExists(author)) {
+			return new ResponseEntity<String>("FAILED: Author already exists", HttpStatus.BAD_REQUEST);
+		}
+		
+		authorRepo.save(author);
+		return new ResponseEntity<String>("SUCCESS: Author created as AuthorID: " + author.getAuthorId(), HttpStatus.CREATED);
+	}
+	
+	public boolean authorExists(Author author) {
+		List<Author> authorListToSearch = authorRepo.findAll();
+		for (Author currentAuthor : authorListToSearch) {
+			if(currentAuthor.getAuthorFirstName().equals(author.getAuthorFirstName()) && 
+					currentAuthor.getAuthorLastName().equals(currentAuthor.getAuthorLastName()) &&
+					currentAuthor.getAuthorPublisher().equals(currentAuthor.getAuthorPublisher())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean requiredFieldIsNull(Author author) {
+		if(author.getAuthorFirstName() == null ||
+				author.getAuthorLastName() == null ||
+				author.getAuthorBiography() == null ||
+				author.getAuthorPublisher() == null) {
+			return true;
+		}
+		return false;
+	}
 }
