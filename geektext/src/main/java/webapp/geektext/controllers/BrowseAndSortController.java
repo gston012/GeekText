@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import webapp.geektext.entities.Book;
 import webapp.geektext.services.BrowseAndSortService;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller for book browsing and sorting.
@@ -28,7 +29,7 @@ public class BrowseAndSortController {
      * @param genre Book genre
      * @return All books by genre.
      */
-    @GetMapping("/{genre}")
+    @GetMapping("/genre/{genre}")
     public List<Book> findByGenre(@PathVariable String genre) {
         return browseAndSort.findByGenre(genre);
     }
@@ -38,8 +39,18 @@ public class BrowseAndSortController {
      * @param topNum Top-selling value
      * @return Books by top sellers
      */
-    @GetMapping("/top{topNum}")
+    @GetMapping("/top/{topNum}")
     public List<Book> findByTopSelling(@PathVariable String topNum) {
         return browseAndSort.findByTopSelling(topNum);
+    }
+
+    /**
+     * Find books by rating and higher (and display rating for book).
+     * @param num Value to begin search from.
+     * @return Books by indicated rating
+     */
+    @GetMapping("/rating/{num}")
+    public List<Map<String, Object>> findByRatings(@PathVariable String num) {
+        return browseAndSort.findByRatings(num);
     }
 }

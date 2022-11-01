@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import webapp.geektext.entities.Book;
 import webapp.geektext.repos.BrowseAndSortRepo;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -15,10 +16,6 @@ import java.util.List;
  * Service that maintains several browsing and sorting operations.
  */
 public class BrowseAndSortService {
-
-//    public ResponseEntity getAllBooks() {
-//        return ResponseEntity.ok(this.browseAndSortRepo.findAll());
-//    }
 
     private final BrowseAndSortRepo browseAndSortRepo;
 
@@ -56,5 +53,23 @@ public class BrowseAndSortService {
                     (HttpStatus.BAD_REQUEST, "Invalid input");
         }
         return browseAndSortRepo.topSelling(PageRequest.of(0,checkedNum));
+    }
+
+    /**
+     * Find books by rating and higher (and display rating for book).
+     * @param num Value to begin search from.
+     * @return Books by indicated rating
+     */
+    public List<Map<String, Object>> findByRatings(String num) {
+        int checkedNum;
+        // See if num is an integer.
+        try {
+            checkedNum = Integer.parseInt(num);
+        }
+        catch (NumberFormatException e) {
+            throw new ResponseStatusException
+                    (HttpStatus.BAD_REQUEST, "Invalid input");
+        }
+        return browseAndSortRepo.findByRatingAndHigher(checkedNum);
     }
 }
