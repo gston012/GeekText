@@ -34,6 +34,18 @@ public class Shopping_cart {
         this.shoppingcartID = shoppingcartID;
         this.shoppingcartBooks = shoppingcartBooks;
     }
+    
+    @Override
+    public String toString() {
+        return "Shopping_cart{" +
+                "shoppingcartID='" + shoppingcartID + '\'' +
+                ", shoppingcartBooks=" + shoppingcartBooks +
+                '}';
+    }
+
+    public void Shopping_cart(){
+
+    }
 
 
 }
