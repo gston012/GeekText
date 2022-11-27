@@ -21,6 +21,8 @@ public class BookService {
 		
 	}
 	
+	
+	// Returns all books in database
 	public ResponseEntity<List<Book>> getBooks() {
 		List<Book> booksToReturn =   bookRepo.findAll();
 		
@@ -32,6 +34,8 @@ public class BookService {
 		}
 	}
 	
+	
+	// Returns book by ISBN
 	public ResponseEntity<Optional <Book>> getBookByISBN(long id) {
 		if(bookRepo.findById(id).isPresent()){
 			Optional<Book> bookToReturnBook = bookRepo.findById(id);
@@ -42,6 +46,9 @@ public class BookService {
 		}
 	}
 	
+	
+	
+	// Returns books associated with an author
 	public ResponseEntity<List<Book>> getBooksByAuthorName(String authorFullName) {
 		Long authorId = authorService.getAuthorIdByName(authorFullName);
 		
@@ -61,6 +68,9 @@ public class BookService {
 		}
 	}
 	
+	
+	
+	// Adds a book to database
 	public ResponseEntity<String> addBook(Book book) {
 		List<Book> listOfBooks = bookRepo.findAll();
 		
