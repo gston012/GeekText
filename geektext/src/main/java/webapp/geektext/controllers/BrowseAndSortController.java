@@ -41,7 +41,7 @@ public class BrowseAndSortController {
      */
     @GetMapping("/top/{topNum}")
     public List<Book> findByTopSelling(@PathVariable String topNum) {
-        return browseAndSort.findByTopSelling(topNum);
+        return browseAndSort.findByTopSelling2(topNum);
     }
 
     /**
@@ -52,5 +52,16 @@ public class BrowseAndSortController {
     @GetMapping("/rating/{num}")
     public List<Map<String, Object>> findByRatings(@PathVariable String num) {
         return browseAndSort.findByRatings(num);
+    }
+
+    /**
+     * Find a given number of books beginning from a given offset value.
+     * @param numBooks Number of books to search for.
+     * @param offset Beginning search value.
+     * @return A given number of books from a given offset value.
+     */
+    @GetMapping("/get/{numBooks}/from/{offset}")
+    public List<Book> findBooksFromOffset(@PathVariable String numBooks, @PathVariable String offset) {
+        return browseAndSort.findBooksFromOffset(numBooks, offset);
     }
 }

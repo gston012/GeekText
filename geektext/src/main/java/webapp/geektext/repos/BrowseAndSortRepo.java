@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import webapp.geektext.entities.Book;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +13,7 @@ import java.util.Map;
  * for sorting.
  */
 @Repository
-public interface BrowseAndSortRepo extends JpaRepository<Book, BigDecimal> {
+public interface BrowseAndSortRepo extends JpaRepository<Book, Long> {
 
     /**
      * Query derivation for a book search by genre.
@@ -30,6 +29,14 @@ public interface BrowseAndSortRepo extends JpaRepository<Book, BigDecimal> {
      */
     public List<Book> findByBookGenreIgnoreCaseOrderByBookName(String genre);
 
+    //public List<Book> findAllByBookISBNOrderByBookISBNAsc();
+
+    /**
+     * Get all books ordered by ISBN.
+     * @return All books by ISBN.
+     */
+    public List<Book> findAllByOrderByBookISBNAsc();
+
     /**
      * Get top 10 most sold books.
      * SQL: SELECT book_copies_sold, book_name FROM book ORDER BY book_copies_sold DESC LIMIT 10
@@ -42,14 +49,17 @@ public interface BrowseAndSortRepo extends JpaRepository<Book, BigDecimal> {
             "ORDER BY b.bookCopiesSold DESC")
     public List<Book> topSelling(PageRequest pageRequest);
 
+    public List<Book> findAllByOrderByBookCopiesSoldDesc();
+
     /**
      * Get books by a specified rating and above (as well as the average rating of the book itself).
      * @param rating Specified rating to begin search by
      * @return Books by given rating and above.
      */
     @Query(value =
-            "SELECT book_isbn, average_rating, book_name, book_description, book_price, " +
-                   "book_author_id, book_genre, book_publisher, book_year_published, book_copies_sold " +
+            "SELECT book_isbn AS \"bookISBN\", average_rating AS \"averageRating\", book_name AS \"bookName\", " +
+            "book_description AS \"bookDescription\", book_price AS \"bookPrice\", book_author_id AS \"authorID\", book_genre AS \"bookGenre\", " +
+            "book_publisher AS \"bookPublisher\", book_year_published AS \"yearPublished\", book_copies_sold AS \"copiesSold\"" +
             "FROM " +
             "(SELECT rating_book_isbn, cast(AVG(rating_stars) AS DEC(3,1)) AS Average_Rating " +
             "FROM rating " +
@@ -60,7 +70,7 @@ public interface BrowseAndSortRepo extends JpaRepository<Book, BigDecimal> {
             "FROM book) " +
             "t2 " +
             "ON t1.rating_book_isbn = t2.book_isbn " +
-            "WHERE average_rating > :rating " +
+            "WHERE average_rating >= :rating " +
             "ORDER BY average_rating ASC", nativeQuery = true)
     public List<Map<String, Object>> findByRatingAndHigher(int rating);
 
