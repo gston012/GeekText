@@ -8,6 +8,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import webapp.geektext.entities.Wish_List;
 import webapp.geektext.repos.Wish_ListRepo;
+import webapp.geektext.entities.Book;
+import webapp.geektext.repos.BookRepo;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,15 +17,14 @@ import java.util.Optional;
 @Service
 public class Wish_ListService {
 
-	private final Wish_ListRepo wishlistRepo;
 	
-    @Autowired 
+    @Autowired Wish_ListRepo wishlistRepo;
+ @Autowired BookRepo bookRepo;
 
-    public Wish_ListService(Wish_ListRepo wishlistRepo){
-    	this.wishlistRepo = wishlistRepo;
+    public Wish_ListService(){
 
     }
-
+//returns all wishlist within database
     public ResponseEntity<List<Wish_List>> getWish_List() {
         List<Wish_List> Wish_ListToReturn = wishlistRepo.findAll();
 
@@ -35,11 +36,16 @@ public class Wish_ListService {
         }
     }
 
-	public Optional<Wish_List> findByUser(String user) {
-		if(!wishlistRepo.existsById(user)) {
-			throw new ResponseStatusException (HttpStatus.NOT_FOUND, "User " + user + " does not has not created a wishlist");
+	public ResponseEntity<String> addBook(Book book) {
+		List<Book> listOfBooks = bookRepo.findAll();
+		
+		for(Book currentBook : listOfBooks) {
+			if(book.getBookISBN() == currentBook.getBookISBN()) {
+				return new ResponseEntity<String>("FAILED: ISBN already located in Wishlist", HttpStatus.BAD_REQUEST);
+			}
 		}
-		// TODO Auto-generated method stub
-		return wishlistRepo.findById(user);
+		
+		return bookRepo.save(book);
+		
 	}
 }
