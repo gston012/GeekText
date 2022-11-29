@@ -21,12 +21,11 @@ public class Wish_ListService {
     public ResponseEntity<List<Wish_List>> getWish_List() {
         List<Wish_List> Wish_ListToReturn = wishlistRepo.findAll();
 
-
-        if(Wish_ListToReturn.isEmpty()) {
+        if(Wish_ListToReturn .isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         else {
-            return new ResponseEntity<List<Wish_List>>(Wish_ListToReturn, HttpStatus.OK);
+            return new ResponseEntity<List<Wish_List>>(Wish_ListToReturn , HttpStatus.OK);
         }
     }
 }
