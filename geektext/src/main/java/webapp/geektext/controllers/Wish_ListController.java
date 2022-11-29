@@ -8,27 +8,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import webapp.geektext.entities.Wish_List;
 import webapp.geektext.services.Wish_ListService;
+import webapp.geektext.services.BookService;
+import webapp.geektext.entities.Book;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 
-@RequestMapping("/wishlist")
 public class Wish_ListController {
 
-    private final Wish_ListService wishlistService;
+    @Autowired Wish_ListService wishlistService;
+    @Autowired BookService bookService;
 
-    @Autowired
-    public Wish_ListController(Wish_ListService wishlistService) {
-        this.wishlistService = wishlistService;
+      @GetMapping("/{wishlist:(?!)wishlist}")
+    public ResponseEntity<List<Wish_List>> getWish_List() {
+        return wishlistService.getWish_List();
+
     }
-
-
-      @GetMapping("/{user}")
-    public Optional<Wish_List> findByUser(@PathVariable String user) {
-        return wishlistService.findByUser(user);
+    
+    
+    @PostMapping("/{wishlist: (?!)wishlist}/{addbook: (?!)addbook}")
+    public ResponseEntity<String> addBook(@RequestBody Book book){
+        return bookService.addbook(book);
     }
-
-
 
 }
