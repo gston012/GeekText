@@ -1,45 +1,44 @@
-package webapp.geektext.services;
+package webapp.geektext.entities;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import webapp.geektext.entities.Wish_List;
-import webapp.geektext.repos.Wish_ListRepo;
+@Entity
+@Table(name = "wishlist")
+public class Wish_List {
 
-import java.util.List;
-import java.util.Optional;
+    @Id
+    @Column(name = "wishlist_name")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String wishlistID;
 
-@Service
-public class Wish_ListService {
+    @Column(name = "wishlist_book_id")
+    private long wishlistBooks;
 
-	private final Wish_ListRepo wishlistRepo;
-	
-    @Autowired 
-
-    public Wish_ListService(Wish_ListRepo wishlistRepo){
-    	this.wishlistRepo = wishlistRepo;
-
+    public String wishlistID() {
+        return wishlistID;
     }
 
-    public ResponseEntity<List<Wish_List>> getWish_List() {
-        List<Wish_List> Wish_ListToReturn = wishlistRepo.findAll();
-
-        if(Wish_ListToReturn .isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        else {
-            return new ResponseEntity<List<Wish_List>>(Wish_ListToReturn , HttpStatus.OK);
-        }
+    public void setwishlistID(String wishlistID) {
+        this.wishlistID = wishlistID;
     }
 
-	public Optional<Wish_List> findByUser(String user) {
-		if(!wishlistRepo.existsById(user)) {
-			throw new ResponseStatusException (HttpStatus.NOT_FOUND, "User " + user + " does not has not created a wishlist");
-		}
-		// TODO Auto-generated method stub
-		return wishlistRepo.findById(user);
-	}
+    public long getwishlistBooks() {
+        return wishlistBooks;
+    }
+
+    public void setwishlistBooks(long wishlistBooks) {
+        this.wishlistBooks = wishlistBooks;
+    }
+
+    public Wish_List(String wishlistID, long wishlistBooks) {
+        this.wishlistID= wishlistID;
+        this.wishlistBooks = wishlistBooks;
+    }
+
+
 }
