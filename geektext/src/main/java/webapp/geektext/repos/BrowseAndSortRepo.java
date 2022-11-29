@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Browsing and sorting repository. Implements various retrieval functions
- * for sorting.
+ * Browsing and sorting repository. Implements various functions
+ * for sorting and retrieval.
  */
 @Repository
 public interface BrowseAndSortRepo extends JpaRepository<Book, Long> {
@@ -28,8 +28,6 @@ public interface BrowseAndSortRepo extends JpaRepository<Book, Long> {
      * @return All books of a certain genre
      */
     public List<Book> findByBookGenreIgnoreCaseOrderByBookName(String genre);
-
-    //public List<Book> findAllByBookISBNOrderByBookISBNAsc();
 
     /**
      * Get all books ordered by ISBN.
@@ -49,10 +47,15 @@ public interface BrowseAndSortRepo extends JpaRepository<Book, Long> {
             "ORDER BY b.bookCopiesSold DESC")
     public List<Book> topSelling(PageRequest pageRequest);
 
+    /**
+     * Finds all books by copies sold in descending order.
+     * @return All books by copies sold in descending order.
+     */
     public List<Book> findAllByOrderByBookCopiesSoldDesc();
 
     /**
      * Get books by a specified rating and above (as well as the average rating of the book itself).
+     * *Database is queried using a native query*
      * @param rating Specified rating to begin search by
      * @return Books by given rating and above.
      */
@@ -73,25 +76,4 @@ public interface BrowseAndSortRepo extends JpaRepository<Book, Long> {
             "WHERE average_rating >= :rating " +
             "ORDER BY average_rating ASC", nativeQuery = true)
     public List<Map<String, Object>> findByRatingAndHigher(int rating);
-
-    //***IGNORE FOR NOW***
-//    // Projection for genre data
-//    interface GenreProjection {
-//        String getBookGenre();
-//        String getBookName();
-//    }
-//    // Projection for number of books sold.
-//    interface SoldProjection {
-//        int getBookCopiesSold();
-//        String getBookName();
-//    }
-//
-//    /**
-//     * Get books by genre
-//     * SQL: SELECT book_name, book_genre FROM book ORDER BY book_genre
-//     */
-//    @Query( "SELECT b.bookName as bookName, b.bookGenre as bookGenre " +
-//            "FROM Book b " +
-//            "ORDER BY b.bookGenre")
-//    public List<GenreProjection> findByGenre();
 }

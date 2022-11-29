@@ -7,17 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import webapp.geektext.entities.Book;
 import webapp.geektext.repos.BrowseAndSortRepo;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-
-@Service
 /**
  * Service that maintains several browsing and sorting operations.
  */
+@Service
 public class BrowseAndSortService {
 
     private final BrowseAndSortRepo browseAndSortRepo;
@@ -29,10 +26,11 @@ public class BrowseAndSortService {
 
     /**
      * Find books by genre.
-     * @param genre Book genre
+     * @param genre Book genre.
      * @return All books by genre.
      */
     public List<Book> findByGenre(String genre) {
+        // Check if book genre exists in database.
         if(!browseAndSortRepo.existsByBookGenreIgnoreCase(genre))
             throw new ResponseStatusException
                     (HttpStatus.NOT_FOUND, "Books of genre " + genre + " were not found.");
@@ -42,9 +40,12 @@ public class BrowseAndSortService {
 
     /**
      * Find top-selling books.
-     * @param topNum Top-selling value
-     * @return Books by top sellers
+     * This is a legacy method and used for debugging purposes.
+     * Use findByTopSelling2 for implementation.
+     * @param topNum Top-selling value.
+     * @return Books by top sellers.
      */
+    @Deprecated
     public List<Book> findByTopSelling(String topNum) {
         int topSellingNum;
         // See if topNum is an integer.
@@ -56,19 +57,25 @@ public class BrowseAndSortService {
                     (HttpStatus.BAD_REQUEST, "Invalid input");
         }
 
-        if (topSellingNum < 0)
+        // Value requested must be greater than 1.
+        if (topSellingNum < 1)
             throw new ResponseStatusException
                     (HttpStatus.BAD_REQUEST, "Top selling value must be 1 or greater.");
 
         return browseAndSortRepo.topSelling(PageRequest.of(0,topSellingNum));
     }
 
+    /**
+     * Find top-selling books.
+     * @param topNum Top-selling value.
+     * @return Books by top sellers.
+     */
     public List<Book> findByTopSelling2(String topNum) {
-        List<Book> booksByRating = browseAndSortRepo.findAllByOrderByBookCopiesSoldDesc();
+        List<Book> booksByNumSold = browseAndSortRepo.findAllByOrderByBookCopiesSoldDesc();
         List<Book> topSoldBooks = new LinkedList<>();
         int topSellingNum;
 
-        if (booksByRating.isEmpty())
+        if (booksByNumSold.isEmpty())
             throw new ResponseStatusException
                     (HttpStatus.NOT_FOUND, "No books were found.");
 
@@ -81,12 +88,13 @@ public class BrowseAndSortService {
                     (HttpStatus.BAD_REQUEST, "Invalid input.");
         }
 
-        if (topSellingNum < 0)
+        // Value requested must be greater than 1.
+        if (topSellingNum < 1)
             throw new ResponseStatusException
                     (HttpStatus.BAD_REQUEST, "Top selling value must be 1 or greater.");
 
         for (int i = 0; i < topSellingNum; i++) {
-            topSoldBooks.add(booksByRating.get(i));
+            topSoldBooks.add(booksByNumSold.get(i));
         }
 
         return topSoldBooks;
@@ -95,19 +103,25 @@ public class BrowseAndSortService {
     /**
      * Find books by rating and higher (and display rating for book).
      * @param num Value to begin search from.
-     * @return Books by indicated rating
+     * @return Books by indicated rating.
      */
-    public List<Map<String, Object>> findByRatings(String num) {
-        int checkedNum;
+    public List<Map<String, Object>> findByRating(String num) {
+        int rating;
         // See if num is an integer.
         try {
-            checkedNum = Integer.parseInt(num);
+            rating = Integer.parseInt(num);
         }
         catch (NumberFormatException e) {
             throw new ResponseStatusException
                     (HttpStatus.BAD_REQUEST, "Invalid input");
         }
-        return browseAndSortRepo.findByRatingAndHigher(checkedNum);
+
+        // Rating must be between 1 and 5.
+        if (rating < 1 || rating > 5)
+            throw new ResponseStatusException
+                    (HttpStatus.BAD_REQUEST, "Rating must be between 1 and 5");
+
+        return browseAndSortRepo.findByRatingAndHigher(rating);
     }
 
     /**

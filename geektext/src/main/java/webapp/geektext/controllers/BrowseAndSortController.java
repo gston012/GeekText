@@ -26,7 +26,7 @@ public class BrowseAndSortController {
 
     /**
      * Find books by genre.
-     * @param genre Book genre
+     * @param genre Book genre.
      * @return All books by genre.
      */
     @GetMapping("/genre/{genre}")
@@ -36,8 +36,8 @@ public class BrowseAndSortController {
 
     /**
      * Find top-selling books.
-     * @param topNum Top-selling value
-     * @return Books by top sellers
+     * @param topNum Top-selling value.
+     * @return Books by top sellers.
      */
     @GetMapping("/top/{topNum}")
     public List<Book> findByTopSelling(@PathVariable String topNum) {
@@ -46,12 +46,12 @@ public class BrowseAndSortController {
 
     /**
      * Find books by rating and higher (and display rating for book).
-     * @param num Value to begin search from.
-     * @return Books by indicated rating
+     * @param rating Rating of books.
+     * @return Books by indicated rating.
      */
-    @GetMapping("/rating/{num}")
-    public List<Map<String, Object>> findByRatings(@PathVariable String num) {
-        return browseAndSort.findByRatings(num);
+    @GetMapping("/rating/{rating}")
+    public List<Map<String, Object>> findByRating(@PathVariable String rating) {
+        return browseAndSort.findByRating(rating);
     }
 
     /**
