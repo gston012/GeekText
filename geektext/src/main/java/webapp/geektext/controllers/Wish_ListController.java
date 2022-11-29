@@ -9,14 +9,21 @@ import webapp.geektext.services.Wish_ListService;
 import java.util.List;
 
 @RestController
+
+@RequestMapping("/wishlist")
 public class Wish_ListController {
 
-    @Autowired
-    Wish_ListService wishlistService ;
+    private final Wish_ListService wishlistService;
 
-    @GetMapping("/wishlist")
-    public ResponseEntity<List<Wish_List>> getWish_List() {
-        return wishlistService.getWish_List();
+    @Autowired
+    public Wish_ListController(Wish_ListService wishlistService) {
+        this.wishlistService = wishlistService;
+    }
+
+
+      @GetMapping("/{user}")
+    public List<Wish_List> findByUser(@PathVariable String user) {
+        return wishlistService.findByUser(user);
     }
 
 
